@@ -1,0 +1,24 @@
+import pandas as pd 
+import numpy as np 
+import re 
+
+def missingValues(df): 
+    df['message'].replace ('<Media omitted>', np.nan, inplace = True )
+    df.dropna(subset = ['message'], inplace = True)
+
+def clean_text(text): 
+    cleaned_text = re.sub(r'[^a-zA-Z0-9\s]','', str(text)) 
+    cleaned_text = re.sub(r'\s+', ' ', cleaned_text).strip()
+    return cleaned_text
+def saveTocsv(df, filename): 
+    df.to_csv(filename, index = False)
+    print(f"Saved cleaned data to '{filename}' with {len(df)} messages.")
+if __name__ == "__main__": 
+    data = pd.read_csv(r'C:\Users\muzam\OneDrive\Desktop\Summer\project 1\Whatsapp Sentiment Analysis\Other_person\others_chats.csv')
+    df= pd.DataFrame(data)
+    missingValues(df)
+    df['clean_message'] = df['message'].apply(clean_text)
+    saveTocsv(df, 'Cleaned_whatsapp.csv')
+    print('Data Cleaning done')
+
+    
