@@ -1,0 +1,28 @@
+import pandas as pd 
+import numpy as np 
+df = pd.read_csv(r'C:\Users\muzam\OneDrive\Desktop\Summer\project 1\Whatsapp Sentiment Analysis\Other_person\Sentiment\Cleaned_whatsapp.csv')
+Reviewdf = pd.DataFrame( df ['clean_message'])
+print (Reviewdf.head)
+Reviewdf['clean_message'] = Reviewdf['clean_message'].str.lower()
+print(Reviewdf['clean_message'].head)
+Reviewdf.dropna(subset=['clean_message'], inplace=True)
+print(Reviewdf.head)
+from textblob import TextBlob
+Reviewdf['sentiment'] = Reviewdf['clean_message'].apply(lambda x: TextBlob(str(x)).sentiment.polarity)
+def categorize_sentiment(score):
+    if score >= 0.5:
+        return 'happy'
+    elif score <= -0.5:
+        return 'angry'
+    elif score < 0:
+        return 'bad'
+    else:
+        return 'neutral'
+Reviewdf['sentiment_category'] = Reviewdf['sentiment'].apply(categorize_sentiment)
+sentiment_distribution = Reviewdf['sentiment_category'].value_counts()
+print("Overall Sentiment Distribution:")
+print(sentiment_distribution)
+print(Reviewdf.head())
+Reviewdf.to_csv(r'C:\Users\muzam\OneDrive\Desktop\Summer\project 1\Whatsapp Sentiment Analysis\Other_person\Sentiment\Reviewdf_with_sentiment.csv', index=False)
+print("DataFrame saved to CSV successfully.")
+
