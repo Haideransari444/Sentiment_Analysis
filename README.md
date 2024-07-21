@@ -45,7 +45,8 @@ Usage
 
 Contributors
 
-    [Muzammil Haider]
+    Muzammil Haider 
+    Internet
 
 License
 
